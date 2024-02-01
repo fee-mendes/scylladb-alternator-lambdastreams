@@ -2,6 +2,11 @@
 
 A simple repository showing example code on how to ingest DynamoDB Stream events to ScyllaDB Alternator using AWS Lambda.
 
+Disclaimer:
+> dynamodb-copy and its contents were originally made by @tdmalone:
+> https://github.com/tdmalone/dynamodb-copy/
+
+
 1. Create a source DynamoDB table. Ensure you have enough RCU/WCUs to make it minimally performant.
   - I used 500 RCUs and 300 WCUs
   - Do not enable DynamoDB Streams just yet (if you are using it for learning, at least)! 

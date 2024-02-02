@@ -27,13 +27,16 @@ try:
             'KeyType': 'HASH'
         },
         ])
+    
+    # After a table gets created there's a small window we must wait before sending requests.
+    print("Create Table Request submitted. Sleeping for 20s for completion...")
+    time.sleep(20)
+
 except botocore.exceptions.ClientError as error:
     if error.response['Error']['Code'] == 'ResourceInUseException':
        print("Table already exists. Moving on!")
 
-# After a table gets created there's a small window we must wait before sending requests.
-time.sleep(5)
-
+print("Ingestion begins...")
 table = dynamodb.Table(TABLE_NAME)
 
 count = 0

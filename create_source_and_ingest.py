@@ -34,6 +34,8 @@ except botocore.exceptions.ClientError as error:
 table = dynamodb.Table(TABLE_NAME)
 
 count = 0
+requests = []
+
 for key in range(1, int(5E4)+1):
     cols = ['id']
     for x in range(1, random.randrange(50)+1):
@@ -48,9 +50,19 @@ for key in range(1, int(5E4)+1):
     # for k, v in d.items():
     #   print(k, v)
 
-    table.put_item(Item=d)
+    if len(requests) >= 20:
+        response = dynamodb.batch_write_item(
+                RequestItems={
+                    TABLE_NAME: requests
+                    }
+                )
+        requests = []
+    requests.append({ 'PutRequest': { 'Item': d } })
+
+    # table.put_item(Item=d)
     if key % 10000 == 0:
         count+= 1
         print(f"Ingested {key} records")
     # print(table.get_item(Key={'id': key})['Item'])
+
 

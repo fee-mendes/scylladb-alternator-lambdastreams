@@ -1,8 +1,12 @@
-import random, string
+import random, string, sys
 import boto3, botocore
 
+if len(sys.argv) > 1:
+    ALTERNATOR_ENDPOINT = sys.argv[1]
+else:
+    ALTERNATOR_ENDPOINT = 'http://alternator:8080'
 
-ALTERNATOR_ENDPOINT = 'http://alternator:8080'
+
 TABLE_NAME = 'dest'
 
 dynamodb = boto3.resource('dynamodb',endpoint_url=ALTERNATOR_ENDPOINT,
@@ -23,4 +27,6 @@ dynamodb.create_table(
         'KeyType': 'HASH'
     },
     ])
+
+print("Table successfully created")
 
